@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="@color/cardview_dark_background">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/image_profile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/mahmud_toir"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true" />
+
+    <View
+        android:id="@+id/view_supporter"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/image_profile"
+        app:layout_constraintEnd_toEndOf="@id/image_profile"
+        app:layout_constraintStart_toStartOf="@id/image_profile"
+        app:layout_constraintTop_toTopOf="@+id/image_profile" />
+
+    <TextView
+        android:id="@+id/name_poet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/my_font"
+        android:text="@string/mahmud_toirov"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/view_supporter"
+        app:layout_constraintStart_toEndOf="@id/image_profile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/my_font"
+        android:text="(1952-2016) "
+        android:textColor="@color/green"
+        android:textSize="11sp"
+        android:visibility="visible"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@id/name_poet"
+        app:layout_constraintTop_toBottomOf="@id/name_poet" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/my_font"
+        android:text="@string/o_zbekiston_xalq_shoyiri"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_profile"
+        app:layout_constraintBottom_toTopOf="@id/bottom_Line"
+        android:layout_marginLeft="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_Line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_black"
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/quill"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/bottom_Line"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

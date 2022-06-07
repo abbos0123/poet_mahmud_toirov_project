@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/about_poet">
+
+    <fragment
+        android:id="@+id/about_poet"
+        android:name="com.example.mahmudtoirovsherlari.fragments.InformationFragment"
+        android:label="Shoyir haqida"
+        tools:layout="@layout/fragment_information" >
+        <action
+            android:id="@+id/action_about_poet_to_picturesFragment"
+            app:destination="@id/picturesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/audio_poem"
+        android:name="com.example.mahmudtoirovsherlari.fragments.AudioPoemsFragment"
+        android:label="Audio she'rlar"
+        tools:layout="@layout/fragment_audio_poems" />
+    <fragment
+        android:id="@+id/text_poem"
+        android:name="com.example.mahmudtoirovsherlari.fragments.TextPoemsFragment"
+        android:label="She'rlar"
+        tools:layout="@layout/fragment_text_poems" />
+    <fragment
+        android:id="@+id/picturesFragment"
+        android:name="com.example.mahmudtoirovsherlari.fragments.PicturesFragment"
+        android:label="Rasmlar"
+        tools:layout="@layout/fragment_picutres" />
+    <fragment
+        android:id="@+id/saved_poems"
+        android:name="com.example.mahmudtoirovsherlari.fragments.SavedPoemsFragment"
+        android:label="Saqlanganlar"
+        tools:layout="@layout/fragment_saved_poems" />
+    <fragment
+        android:id="@+id/liked_poems"
+        android:name="com.example.mahmudtoirovsherlari.fragments.LikedPoemFragment"
+        android:label="Men yoqtirganlarim"
+        tools:layout="@layout/fragment_liked_poem" />
+</navigation>
