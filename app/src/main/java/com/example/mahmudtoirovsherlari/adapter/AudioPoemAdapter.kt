@@ -13,10 +13,12 @@ class AudioPoemAdapter(var list: List<AudioPoem>, var onClick: OnClick) :
 
     inner class ViewHolder(var binding: ItemAudioPoemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(position: Int) {
+        fun onBind(audioPoem: AudioPoem, position: Int) {
+
+            binding.textName.text = audioPoem.name
 
             binding.itemPoem.setOnClickListener {
-                onClick.onItemClick(position)
+                onClick.onItemClick(audioPoem, position)
             }
 
         }
@@ -34,7 +36,7 @@ class AudioPoemAdapter(var list: List<AudioPoem>, var onClick: OnClick) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(position)
+        holder.onBind(list[position], position)
     }
 
     override fun getItemCount(): Int {
@@ -43,6 +45,6 @@ class AudioPoemAdapter(var list: List<AudioPoem>, var onClick: OnClick) :
 
 
     interface OnClick {
-        fun onItemClick(position: Int)
+        fun onItemClick(audioPoem: AudioPoem, position: Int)
     }
 }

@@ -3,6 +3,7 @@ package com.example.mahmudtoirovsherlari
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -10,7 +11,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.mahmudtoirovsherlari.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController

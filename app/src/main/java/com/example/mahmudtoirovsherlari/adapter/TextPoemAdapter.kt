@@ -11,12 +11,13 @@ class TextPoemAdapter(var list: List<Poem>, var onClick: OnClick) :
 
     inner class ViewHolder(var binding: ItemPoemTextBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(position: Int) {
+        fun onBind(poem: Poem, position: Int) {
 
             binding.itemPoem.setOnClickListener {
-                onClick.onItemClick(position)
+                onClick.onItemClick(poem, position)
             }
 
+            binding.textName.text = poem.name
         }
 
     }
@@ -32,7 +33,7 @@ class TextPoemAdapter(var list: List<Poem>, var onClick: OnClick) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(position)
+        holder.onBind(list[position], position)
     }
 
     override fun getItemCount(): Int {
@@ -41,7 +42,7 @@ class TextPoemAdapter(var list: List<Poem>, var onClick: OnClick) :
 
 
     interface OnClick {
-        fun onItemClick(position: Int)
+        fun onItemClick(poem: Poem, position: Int)
         fun onLikeClick(poem: Poem, position: Int)
         fun onSaveClick(poem: Poem, position: Int)
     }

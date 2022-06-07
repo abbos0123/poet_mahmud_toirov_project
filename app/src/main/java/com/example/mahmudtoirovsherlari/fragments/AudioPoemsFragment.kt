@@ -20,6 +20,8 @@ class AudioPoemsFragment : Fragment() {
     private lateinit var binding: FragmentAudioPoemsBinding
     private lateinit var adapter: AudioPoemAdapter
     private lateinit var list: ArrayList<AudioPoem>
+    var isLikedFragment: Boolean = false
+    var isSavedFragment: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +47,7 @@ class AudioPoemsFragment : Fragment() {
 
     private fun setData() {
         adapter = AudioPoemAdapter(list, onClick = object : AudioPoemAdapter.OnClick {
-            override fun onItemClick(position: Int) {
+            override fun onItemClick(audioPoem: AudioPoem, position: Int) {
                 val intent = Intent(activity, AudioPlayerActivity::class.java)
                 intent.putExtra("key", position)
                 startActivity(intent)
@@ -61,6 +63,17 @@ class AudioPoemsFragment : Fragment() {
 
         for (i in 1..20) {
             val audio = AudioPoem()
+            when {
+                isLikedFragment -> {
+                    audio.name = "(Liked) Name of audio file"
+                }
+                isSavedFragment -> {
+                    audio.name = "(Saved) Name of audio file"
+                }
+                else -> {
+                    audio.name = "(_) Name of audio file"
+                }
+            }
             list.add(audio)
         }
     }
