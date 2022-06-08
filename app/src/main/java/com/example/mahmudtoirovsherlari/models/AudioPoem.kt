@@ -1,11 +1,15 @@
 package com.example.mahmudtoirovsherlari.models
 
-class AudioPoem {
+import java.io.File
+import java.io.Serializable
+
+class AudioPoem : Serializable{
 
     var id: Long = 0
     var name: String? = null
     var duration: Int = 0
     var audioPath: String? = null
+    var audioFile: File? = null
     var book: String? = null
     var isSaved : Boolean = false
     var isLiked : Boolean = false
