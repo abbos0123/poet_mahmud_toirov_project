@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mahmudtoirovsherlari.databinding.ItemPoemTextBinding
 import com.example.mahmudtoirovsherlari.models.Poem
+import java.util.*
 
 class TextPoemAdapter(var list: List<Poem>, var onClick: OnClick) :
     RecyclerView.Adapter<TextPoemAdapter.ViewHolder>() {
@@ -17,7 +18,7 @@ class TextPoemAdapter(var list: List<Poem>, var onClick: OnClick) :
                 onClick.onItemClick(poem, position)
             }
 
-            binding.textName.text = poem.name
+            binding.textName.text = poem.name?.uppercase(Locale.getDefault())
         }
 
     }

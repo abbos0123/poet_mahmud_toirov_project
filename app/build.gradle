@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -59,4 +61,20 @@ dependencies {
     //dexter library for permission
     implementation 'com.karumi:dexter:6.2.3'
 
+    //Room
+    implementation("androidx.room:room-runtime:2.4.2")
+    implementation("androidx.room:room-ktx:2.4.2")
+     kapt("androidx.room:room-compiler:2.4.2")
+
+    //Gsong
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    //  Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+
+
+    //Lifecycle Components
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
 }

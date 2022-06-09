@@ -172,6 +172,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/button_Save"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:backgroundTint="@color/cardview_dark_background"
@@ -185,6 +186,7 @@
         app:layout_constraintTop_toTopOf="@id/helper_point">
 
         <ImageView
+            android:id="@+id/image_save"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
@@ -193,6 +195,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/button_like"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:backgroundTint="@color/cardview_dark_background"
@@ -206,6 +209,7 @@
         app:layout_constraintTop_toTopOf="@id/helper_point">
 
         <ImageView
+            android:id="@+id/image_like"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="2dp"

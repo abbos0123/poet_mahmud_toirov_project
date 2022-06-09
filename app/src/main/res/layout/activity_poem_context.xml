@@ -35,7 +35,7 @@
             android:maxLines="1"
             android:text="Title of poem"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -61,7 +61,7 @@
                 android:padding="10dp"
                 android:text="O'tinch"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

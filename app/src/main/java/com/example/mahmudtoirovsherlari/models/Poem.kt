@@ -1,7 +1,13 @@
 package com.example.mahmudtoirovsherlari.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 class Poem {
-    var id: Long = -1L
+    @PrimaryKey
+    var id: Long? = null
+
     var name: String?= null
     var poemContext: String?= null
     var book: String? = null

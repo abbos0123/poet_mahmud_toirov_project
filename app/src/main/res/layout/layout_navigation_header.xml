@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/my_font"
-        android:text="(1952-2016) "
+        android:text="(1952-hozir) "
         android:textColor="@color/green"
         android:textSize="11sp"
         android:visibility="visible"

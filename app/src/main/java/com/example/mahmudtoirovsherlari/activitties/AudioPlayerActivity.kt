@@ -16,10 +16,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.mahmudtoirovsherlari.R
 import com.example.mahmudtoirovsherlari.adapter.AudioImageAdapter
 import com.example.mahmudtoirovsherlari.adapter.ImageAdapter
+import com.example.mahmudtoirovsherlari.database.AppDatabase
 import com.example.mahmudtoirovsherlari.databinding.ActivityAudioPlayerBinding
 import com.example.mahmudtoirovsherlari.fragments.AudioPoemsFragment
 import com.example.mahmudtoirovsherlari.models.AudioPoem
 import com.example.mahmudtoirovsherlari.models.Poem
+import com.example.mahmudtoirovsherlari.repository.AudioPoemRepository
 import java.io.File
 import kotlin.math.abs
 
@@ -27,8 +29,14 @@ class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAudioPlayerBinding
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: AudioImageAdapter
-    private var mySongs: ArrayList<File>? = null
+    private lateinit var allSongs: ArrayList<AudioPoem>
+    private lateinit var listLiked: ArrayList<AudioPoem>
+    private lateinit var listSaved: ArrayList<AudioPoem>
+    private  var isLikedFragment: Boolean = false
+    private  var isSavedFragment: Boolean = false
     private var postion: Int = 0
+    private lateinit var database: AppDatabase
+    private lateinit var repository: AudioPoemRepository
     private var sName: String? = null
 
     companion object {
@@ -44,22 +52,31 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         setAdapter()
         setMediaPlayer()
-
         val myIntent = intent
         val bundle: Bundle? = myIntent.extras
-        mySongs = AudioPoemsFragment.findSong(Environment.getExternalStorageDirectory())
-        var songName = (myIntent.getSerializableExtra("poem") as AudioPoem?)?.name
-        postion = bundle?.getInt("position", 0)!!
+        isLikedFragment = bundle?.getBoolean("isLiked", false)!!
+        isSavedFragment = bundle.getBoolean("isSaved", false)
+        postion = bundle.getInt("position", 0)
+        getData()
 
-        var uri: Uri = Uri.parse(mySongs?.get(postion).toString())
+        val audiPoem = allSongs[postion]
 
-        sName = mySongs?.get(postion)?.name
+        sName = audiPoem.name
         binding.nameAudioPoet.text = sName
+        setImageForLike(audiPoem.isLiked)
+        setImageForSave(audiPoem.isSaved)
 
-        mediaPlayer = MediaPlayer.create(applicationContext, uri)
+        mediaPlayer = MediaPlayer.create(applicationContext, audiPoem.audioID!!)
         mediaPlayer?.start()
 
         setClicks()
+    }
+
+    private fun getData() {
+        database = AppDatabase.getInstance(applicationContext)
+        repository = AudioPoemRepository(database)
+        sortList()
+
     }
 
     private fun setMediaPlayer() {
@@ -71,6 +88,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
 
     private fun setClicks() {
+
         val updateSeekBar = object : Thread() {
             override fun run() {
                 super.run()
@@ -95,6 +113,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             finish()
         }
 
+
         binding.buttonPause.setOnClickListener {
             if (mediaPlayer?.isPlaying!!) {
                 binding.imagePlay.setImageResource(R.drawable.ic_baseline_play_circle_filled_24)
@@ -108,11 +127,16 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.buttonNext.setOnClickListener {
             mediaPlayer?.stop()
             mediaPlayer?.release()
-            postion = ((postion + 1) % mySongs?.size!!)
 
-            val uri: Uri = Uri.parse(mySongs?.get(postion)?.toString())
-            mediaPlayer = MediaPlayer.create(applicationContext, uri)
-            binding.nameAudioPoet.text = mySongs?.get(postion)?.name
+            postion = ((postion + 1) % allSongs.size)
+            val audioPoem = allSongs[postion]
+
+            mediaPlayer = MediaPlayer.create(applicationContext, audioPoem.audioID!!)
+            binding.nameAudioPoet.text = allSongs[postion].name
+
+            setImageForLike(audioPoem.isLiked)
+            setImageForSave(audioPoem.isSaved)
+
             mediaPlayer?.start()
             binding.imagePlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
             binding.seekBar.max = mediaPlayer?.duration!!
@@ -145,15 +169,19 @@ class AudioPlayerActivity : AppCompatActivity() {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             if (postion - 1 < 0) {
-                postion = mySongs?.size?.minus(1)!!
+                postion = allSongs.size.minus(1)
             } else {
                 postion -= 1
             }
 
-            val uri: Uri = Uri.parse(mySongs?.get(postion)?.toString())
-            mediaPlayer = MediaPlayer.create(applicationContext, uri)
-            binding.nameAudioPoet.text = mySongs?.get(postion)?.name
+            val audioPoem = allSongs[postion]
+            mediaPlayer = MediaPlayer.create(applicationContext, audioPoem.audioID!!)
             mediaPlayer?.start()
+
+            setImageForLike(audioPoem.isLiked)
+            setImageForSave(audioPoem.isSaved)
+
+            binding.nameAudioPoet.text = allSongs.get(postion).name
             binding.imagePlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
             binding.seekBar.max = mediaPlayer?.duration!!
             binding.seekBar.progress = 0
@@ -185,6 +213,23 @@ class AudioPlayerActivity : AppCompatActivity() {
             Toast.makeText(this, "finish", Toast.LENGTH_SHORT).show()
             binding.seekBar.progress = 0
             binding.imagePlay.setImageResource(R.drawable.ic_baseline_play_circle_filled_24)
+        }
+
+        binding.buttonLike.setOnClickListener {
+            val audioPoem = allSongs[postion]
+            audioPoem.isLiked = !audioPoem.isLiked
+
+            repository.savePoem(audioPoem)
+            setImageForLike(audioPoem.isLiked)
+        }
+
+
+        binding.buttonSave.setOnClickListener {
+            val audioPoem = allSongs[postion]
+            audioPoem.isSaved = !audioPoem.isSaved
+
+            repository.savePoem(audioPoem)
+            setImageForSave(audioPoem.isSaved)
         }
 
 
@@ -252,5 +297,48 @@ class AudioPlayerActivity : AppCompatActivity() {
         if (sec < 10) secStr = "0$sec"
 
         return "$minStr:$secStr"
+    }
+
+    private fun setImageForLike(boolean: Boolean) {
+        if (boolean) {
+            binding.imageLike.setImageResource(R.drawable.ic_baseline_favorite_24)
+        } else {
+            binding.imageLike.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        }
+    }
+
+    private fun setImageForSave(boolean: Boolean) {
+        if (boolean) {
+            binding.imageSave.setImageResource(R.drawable.ic_baseline_bookmark_24)
+        } else {
+            binding.imageSave.setImageResource(R.drawable.ic_baseline_bookmark_border_24)
+        }
+    }
+
+    private fun sortList(){
+
+        allSongs = ArrayList()
+        listLiked = ArrayList()
+        listSaved = ArrayList()
+        val allSongsList = repository.getAllAudioPoem()
+
+        for (i in allSongsList.indices) {
+            val audio = allSongsList[i]
+
+            if (audio.isLiked)
+                listLiked.add(audio)
+
+            if (audio.isSaved)
+                listSaved.add(audio)
+
+            allSongs.add(audio)
+
+        }
+
+        if (isSavedFragment)
+            allSongs = listSaved
+        else if (isLikedFragment)
+            allSongs = listLiked
+
     }
 }

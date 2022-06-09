@@ -42,7 +42,7 @@
                 android:id="@+id/years"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/_1052_2016"
+                android:text="1952-hozir"
                 android:fontFamily="@font/joan_regular_font"
                 android:textAlignment="center"
                 android:textColor="@color/white"

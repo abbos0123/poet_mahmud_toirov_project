@@ -1,10 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.MahmudToirovSherlari" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/green</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/green</item>
         <item name="colorSecondaryVariant">@color/green</item>
@@ -13,4 +12,24 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/dark_green</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="textStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/my_font</item>
+    </style>
+
+    <style name="textStylePoemName" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/joan_regular_font</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="textInfoStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/joan_regular_font</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">16dp</item>
+    </style>
+
+
 </resources>

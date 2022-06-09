@@ -12,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.mahmudtoirovsherlari.R
 import com.example.mahmudtoirovsherlari.activitties.AudioPlayerActivity
 import com.example.mahmudtoirovsherlari.adapter.AudioPoemAdapter
+import com.example.mahmudtoirovsherlari.database.AppDatabase
 import com.example.mahmudtoirovsherlari.databinding.FragmentAudioPoemsBinding
 import com.example.mahmudtoirovsherlari.models.AudioPoem
+import com.example.mahmudtoirovsherlari.repository.AudioPoemRepository
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -29,14 +31,17 @@ class AudioPoemsFragment : Fragment() {
     private lateinit var binding: FragmentAudioPoemsBinding
     private lateinit var adapter: AudioPoemAdapter
     private lateinit var list: ArrayList<AudioPoem>
-    private var fileList: ArrayList<File>? = null
-    private var mySongs: ArrayList<File>? = null
+    private lateinit var listLiked: ArrayList<AudioPoem>
+    private lateinit var listSaved: ArrayList<AudioPoem>
+    private lateinit var database: AppDatabase
+    private lateinit var repository: AudioPoemRepository
     var isLikedFragment: Boolean = false
     var isSavedFragment: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        database = AppDatabase.getInstance(activity?.applicationContext!!)
+        repository = AudioPoemRepository(database)
     }
 
     override fun onCreateView(
@@ -55,13 +60,14 @@ class AudioPoemsFragment : Fragment() {
 
     }
 
-    private fun setData() {
-        adapter = AudioPoemAdapter(list, onClick = object : AudioPoemAdapter.OnClick {
+    private fun setData(list: ArrayList<AudioPoem>) {
+        adapter = AudioPoemAdapter(requireActivity(), list, onClick = object : AudioPoemAdapter.OnClick {
             override fun onItemClick(audioPoem: AudioPoem, position: Int) {
                 val intent = Intent(activity, AudioPlayerActivity::class.java)
-                intent.putExtra("key", position)
-                intent.putExtra("poem", audioPoem)
+                intent.putExtra("id", audioPoem.audioID)
                 intent.putExtra("position", position)
+                intent.putExtra("isSaved", isSavedFragment)
+                intent.putExtra("isLiked", isLikedFragment)
                 startActivity(intent)
             }
 
@@ -69,8 +75,6 @@ class AudioPoemsFragment : Fragment() {
 
         binding.rv.adapter = adapter
     }
-
-
 
 
     private fun runtimePermission() {
@@ -95,53 +99,38 @@ class AudioPoemsFragment : Fragment() {
             }).check()
     }
 
-    fun displaySongs() {
-        mySongs = findSong(Environment.getExternalStorageDirectory())
-        fileList = mySongs
-        list = ArrayList()
-        for (i in 0 until fileList?.size!!) {
-            val name = mySongs?.get(i)?.name
-            val audio = AudioPoem()
+    override fun onResume() {
+        super.onResume()
+        displaySongs()
+    }
 
-            when {
-                isLikedFragment -> {
-                    audio.name = "(Liked) $name"
-                    audio.audioFile = mySongs?.get(i)
-                }
-                isSavedFragment -> {
-                    audio.name = "(Saved) $name"
-                    audio.audioFile = mySongs?.get(i)
-                }
-                else -> {
-                    audio.name = "(_) $name"
-                    audio.audioFile = mySongs?.get(i)
-                }
-            }
+    fun displaySongs() {
+        list = ArrayList()
+        listLiked = ArrayList()
+        listSaved = ArrayList()
+        val allSongs = repository.getAllAudioPoem()
+
+        for (i in allSongs.indices) {
+            val audio = allSongs[i]
+
+            if (audio.isLiked)
+                listLiked.add(audio)
+
+             if (audio.isSaved)
+                listSaved.add(audio)
+
             list.add(audio)
 
-            setData()
-        }
-    }
-
-    companion object{
-         fun findSong(file: File): ArrayList<File>? {
-            var  list = ArrayList<File>()
-            val listFiles = file.listFiles()
-
-            if (listFiles != null)
-                for (singleFile in listFiles) {
-                    if (singleFile.isDirectory && !singleFile.isHidden) {
-                        val newList = findSong(singleFile)
-                        if (newList != null)
-                            list.addAll(newList)
-                    } else {
-                        if (singleFile.name.endsWith(".mp3") || singleFile.name.endsWith(".wav")) {
-                            list.add(singleFile)
-                        }
-                    }
-                }
-            return list
         }
 
+        if (isSavedFragment)
+            this.list = listSaved
+        else if (isLikedFragment)
+            this.list = listLiked
+        else
+            this.list = list
+
+        setData(list)
     }
+
 }
