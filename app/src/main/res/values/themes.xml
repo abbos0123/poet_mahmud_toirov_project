@@ -12,10 +12,39 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/dark_green</item>
         <!-- Customize your theme here. -->
+        <item name="android:alertDialogTheme">@style/AlertDialogThemeMine</item>
     </style>
+
+    <style name="AlertDialogThemeMine">
+        <item name="android:windowBackground">@color/cardview_dark_background2</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+        <item name="android:windowTitleStyle">@style/textStyleDialogTitle</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/my_font</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+
+    <style name="textStyleDialogTitle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/joan_regular_font</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+
 
     <style name="textStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/my_font</item>
+    </style>
+
+    <style name="textStyleMenu" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/my_font</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="textStylePoemName" parent="android:Widget.TextView">

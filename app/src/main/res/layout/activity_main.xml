@@ -60,9 +60,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:subheaderColor="@color/green"
         app:headerLayout="@layout/layout_navigation_header"
         app:menu="@menu/navigation_menu"
-        app:itemTextAppearance="@style/textStyle"
+        app:itemTextColor="@color/white"
+        android:background="@color/cardview_dark_background2"
+        app:itemTextAppearance="@style/textStyleMenu"
         app:subheaderTextAppearance="@style/textStyle"/>
 
 

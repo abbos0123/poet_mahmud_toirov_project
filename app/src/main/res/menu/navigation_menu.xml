@@ -26,19 +26,23 @@
         android:icon="@drawable/liked"
         android:title="@string/men_yoqtirganlarim" />
 
+    <item
+        android:id="@+id/books"
+        android:icon="@drawable/open_book"
+        android:title="Asarlar" />
+
 
     <item
-        android:icon="@drawable/ic_baseline_menu_24"
         android:title="@string/biz_bilan_bog_lanish">
 
         <menu>
             <item
-                android:id="@+id/other_1"
+                android:id="@+id/telegram"
                 android:icon="@drawable/telegram"
                 android:title="@string/others_one" />
 
             <item
-                android:id="@+id/other_2"
+                android:id="@+id/email"
                 android:icon="@drawable/envelope"
                 android:title="@string/others_two" />
 

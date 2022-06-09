@@ -10,5 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#1BA31F</color>
     <color name="dark_green">#026005</color>
+    <color name="cardview_dark_background2">#4C4C4C</color>
     <color name="blue">#2FB0EA</color>
 </resources>

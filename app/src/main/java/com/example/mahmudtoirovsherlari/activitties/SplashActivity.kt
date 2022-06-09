@@ -1,9 +1,12 @@
 package com.example.mahmudtoirovsherlari.activitties
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.mahmudtoirovsherlari.MainActivity
 import com.example.mahmudtoirovsherlari.R
@@ -18,28 +21,33 @@ import com.example.mahmudtoirovsherlari.view_models.TextPoemsViewModel
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
-    private lateinit var database: AppDatabase
-    private lateinit var poemRepository: PoemRepository
-    private lateinit var audioPoemRepository: AudioPoemRepository
-    private var isSaved = false
-    private var isSavedFile = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        connectDatabase()
-
         setClicks()
-    }
 
-    private fun connectDatabase() {
-        database = AppDatabase.getInstance(applicationContext)
-        poemRepository = PoemRepository(database)
-        audioPoemRepository = AudioPoemRepository(database)
+        val sharedPref = this.getSharedPreferences(
+            getString(R.string.isFirst), Context.MODE_PRIVATE
+        )
 
+        val edit = sharedPref.edit()
+        val isF = sharedPref.getBoolean("is_first", true)
+
+        val handler = Handler()
+        val delay: Long = 3000
+        handler.postDelayed({
+            if (isF) {
+                edit.putBoolean("is_first", false)
+                edit.apply()
+                startActivity(Intent(this@SplashActivity, InsertingActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                finish()
+            }
+        }, delay)
     }
 
 
@@ -49,61 +57,12 @@ class SplashActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.splash.setOnClickListener {
-            deleteAll()
-        }
 
         binding.save.setOnClickListener {
-            savePoem()
-        }
-        binding.saveFile.setOnClickListener {
-            saveAudioPoem()
-        }
-    }
-
-
-    fun savePoem() {
-        val poem = Poem()
-        poem.name = "Orzu"
-        poem.poemContext = Resource.poem9
-        poem.book = "FIRST BOOK"
-
-        val poem2 = Poem()
-        poem2.name = "PARKENTIM"
-        poem2.poemContext = Resource.poem9
-        poem2.book = "FIRST BOOK"
-        if (!isSaved) {
-            poemRepository.savePoem(poem2)
-            poemRepository.savePoem(poem)
-            isSaved = true
+            startActivity(Intent(this, InsertingActivity::class.java))
         }
 
     }
 
-    fun saveAudioPoem(){
-        val poem = AudioPoem()
-        poem.audioID = R.raw.rasululloh_keladur_nashida
-        poem.name = "Rasululloh keladur"
-        poem.isLiked = false
 
-        val poem2 = AudioPoem()
-        poem2.audioID = R.raw.bahrom_nazarov_ostona_hatlab
-        poem2.name = "Onsonang oldida"
-        poem2.isLiked = false
-
-        if (!isSavedFile) {
-            audioPoemRepository.savePoem(poem)
-            audioPoemRepository.savePoem(poem2)
-            isSaved = true
-        }
-    }
-
-   fun deleteAll(){
-       val list = ArrayList<Poem>()
-       list.add(poemRepository.getPoem(2))
-       list.add(poemRepository.getPoem(9))
-       list.forEach {
-           poemRepository.deletePoem(it)
-       }
-   }
 }

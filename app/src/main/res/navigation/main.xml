@@ -9,7 +9,7 @@
         android:id="@+id/about_poet"
         android:name="com.example.mahmudtoirovsherlari.fragments.InformationFragment"
         android:label="Shoyir haqida"
-        tools:layout="@layout/fragment_information" >
+        tools:layout="@layout/fragment_information">
         <action
             android:id="@+id/action_about_poet_to_picturesFragment"
             app:destination="@id/picturesFragment" />
@@ -39,4 +39,19 @@
         android:name="com.example.mahmudtoirovsherlari.fragments.LikedPoemFragment"
         android:label="Men yoqtirganlarim"
         tools:layout="@layout/fragment_liked_poem" />
+    <fragment
+        android:id="@+id/books"
+        android:name="com.example.mahmudtoirovsherlari.fragments.BooksFragment"
+        android:label="Asarlar"
+        tools:layout="@layout/fragment_books" />
+    <fragment
+        android:id="@+id/telegram"
+        android:name="com.example.mahmudtoirovsherlari.fragments.TelegramFragment"
+        android:label="Telegram"
+        tools:layout="@layout/fragment_telegram" />
+    <fragment
+        android:id="@+id/email"
+        android:name="com.example.mahmudtoirovsherlari.fragments.EmailFragment"
+        android:label="Email"
+        tools:layout="@layout/fragment_email" />
 </navigation>

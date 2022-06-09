@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MahmudToirovSherlari">
         <activity
+            android:name=".activitties.InsertingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitties.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -28,8 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
     </application>
 
 </manifest>
